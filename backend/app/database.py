@@ -30,7 +30,11 @@ def init_engine():
             )
     
     # SQLite fallback
-    sqlite_url = "sqlite:///./marketplace.db"
+    import os
+    if os.getenv("VERCEL"):
+        sqlite_url = "sqlite:////tmp/marketplace.db"
+    else:
+        sqlite_url = "sqlite:///./marketplace.db"
     return create_engine(sqlite_url, connect_args={"check_same_thread": False})
 
 engine = init_engine()
